@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.2",
+    "libraryName": "holamundo",
+    "libraryId": "61908fe6-56b9-49f1-8eea-c89f4c384e91",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "holamundo",
+    "solutionShortDescription": "holamundo description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
