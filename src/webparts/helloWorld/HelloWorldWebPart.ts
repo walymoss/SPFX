@@ -1,7 +1,10 @@
 import { Version } from '@microsoft/sp-core-library';
 import {
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
+  PropertyPaneCheckbox,
+  PropertyPaneDropdown,
+  PropertyPaneTextField,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
@@ -11,8 +14,13 @@ import styles from './HelloWorldWebPart.module.scss';
 import * as strings from 'HelloWorldWebPartStrings';
 
 export interface IHelloWorldWebPartProps {
-  description: string;
+  description: string; // Si esto es para un PropertyPaneTextField
+  walyprop1: string;   // Asumiendo que es un texto debido al PropertyPaneTextField
+  walyprop2: boolean;  // Para un PropertyPaneCheckbox, se usa boolean
+  walyprop3: string;   // Para un PropertyPaneDropdown, se usa string para almacenar la clave seleccionada
+  walyprop4: boolean;  // Para un PropertyPaneToggle, se usa boolean
 }
+
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
@@ -30,19 +38,11 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       </div>
       <div>
         <h3>Welcome to SharePoint Framework!</h3>
-        <p>
-        The SharePoint Framework (SPFx) is a extensibility model for Microsoft Viva, Microsoft Teams and SharePoint. It's the easiest way to extend Microsoft 365 with automatic Single Sign On, automatic hosting and industry standard tooling.
-        </p>
-        <h4>Learn more about SPFx development:</h4>
-          <ul class="${styles.links}">
-            <li><a href="https://aka.ms/spfx" target="_blank">SharePoint Framework Overview</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-graph" target="_blank">Use Microsoft Graph in your solution</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-teams" target="_blank">Build for Microsoft Teams using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-viva" target="_blank">Build for Microsoft Viva Connections using SharePoint Framework</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-store" target="_blank">Publish SharePoint Framework applications to the marketplace</a></li>
-            <li><a href="https://aka.ms/spfx-yeoman-api" target="_blank">SharePoint Framework API reference</a></li>
-            <li><a href="https://aka.ms/m365pnp" target="_blank">Microsoft 365 Developer Community</a></li>
-          </ul>
+        <div>
+        <span>${this.properties.walyprop1}</span>
+        <span>${this.properties.walyprop2}</span>
+        <span>${this.properties.walyprop1} + ${this.properties.walyprop2}</span>
+        </div>
       </div>
     </section>`;
   }
@@ -90,14 +90,29 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: "Configuración del WebPart"
           },
           groups: [
             {
-              groupName: strings.BasicGroupName,
+              groupName: "Configuraciones Básicas",
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
+                PropertyPaneTextField('walyprop1', {
+                  label: "Texto Simple"
+                }),
+                PropertyPaneCheckbox('walyprop2', {
+                  text: "Habilitar Opción"
+                }),
+                PropertyPaneDropdown('walyprop3', {
+                  label: "Elija una Opción",
+                  options: [
+                    { key: '1', text: 'Opción 1' },
+                    { key: '2', text: 'Opción 2' }
+                  ]
+                }),
+                PropertyPaneToggle('walyprop4', {
+                  label: "Activar Función",
+                  onText: "Sí",
+                  offText: "No"
                 })
               ]
             }
@@ -106,4 +121,5 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       ]
     };
   }
+  
 }
